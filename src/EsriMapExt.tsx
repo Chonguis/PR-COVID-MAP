@@ -23,12 +23,35 @@ export default class EsriMapExt extends React.Component<Props> {
         });
     }
     createMap = () => {
-        dojoRequire(['esri/Map', 'esri/views/MapView'], (Map, MapView) => {
+        dojoRequire([
+            'esri/Map', 
+            'esri/views/MapView',
+            'esri/widgets/Search',
+            'esri/layers/FeatureLayer'], 
+            (Map, MapView, Search, FeatureLayer) => {
+
+            const searchWidget = new Search({
+                view: this.mapView
+            });
+            const municipalitiesLayer = new FeatureLayer({
+                url: 'https://services5.arcgis.com/tSRPsq29e3DI9PlH/arcgis/rest/services/limites_puerto_rico/FeatureServer',
+            })
+
+            const map = new Map({
+                layers: [municipalitiesLayer],
+            })
+
             this.mapView = new MapView({
                 container: this.mapContainer,
-                map: new Map({ basemap: 'dark-gray' })
+                map: map,
             });
-            this.props.onMapViewCreated(this.mapView);
+
+            this.mapView.ui.add(searchWidget, {
+                position: "top-right",
+                // index: 2
+            });
+
+            // this.props.onMapViewCreated(this.mapView);
         });
     }
     componentDidMount() {
