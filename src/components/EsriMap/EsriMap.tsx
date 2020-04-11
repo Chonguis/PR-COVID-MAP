@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { dojoRequire } from 'esri-loader';
 import EsriLoader from 'esri-loader-react';
-export interface Props {
-    onMapViewCreated?: (mapView) => void;
+
+// export interface Props {
+//     onMapViewCreated?: (mapView) => void;
+// }
+
+interface Props {
+    municipalityData: {
+        [key: string]: {},
+    }
 }
 
 interface State {
     loaded?: boolean
 }
-export default class EsriMapExt extends React.Component<Props> {
+class EsriMap extends React.Component<Props, State> {
     mapContainer;
     mapView;
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.state = {
             loaded: false
@@ -58,6 +65,7 @@ export default class EsriMapExt extends React.Component<Props> {
         this.createMap();
     };
     render() {
+        console.log(this.props.municipalityData, 'datadatadata');
         // you can omit options and it defaults to the latest version
         const options = {
             url: 'https://js.arcgis.com/4.5/'
@@ -71,3 +79,6 @@ export default class EsriMapExt extends React.Component<Props> {
         );
     }
 }
+
+export default EsriMap;
+

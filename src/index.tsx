@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from "react-dom";
-import EsriMapExt from './EsriMapExt';
+import App from './components/App';
 
 ReactDOM.render(
-    <EsriMapExt />,
+    <App />,
     document.getElementById("root")
 );
