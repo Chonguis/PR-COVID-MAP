@@ -1,14 +1,18 @@
 import * as React from 'react';
 import { dojoRequire } from 'esri-loader';
 import EsriLoader from 'esri-loader-react';
-
+import Rainbow from 'rainbowvis.js';
 // export interface Props {
 //     onMapViewCreated?: (mapView) => void;
 // }
 
 interface Props {
     municipalityData: {
-        [key: string]: {},
+        [key: string]: {
+            name: string;
+            number: number;
+            percent: number;
+        },
     }
 }
 
@@ -24,12 +28,84 @@ class EsriMap extends React.Component<Props, State> {
             loaded: false
         }
     }
-    ready() {
+
+    getVisualVariable = (number: number): string => {
+        let rainbow = Rainbow.color();
+        console.log(rainbow);
+        rainbow.setSpectrum("white", "red");
+        rainbow.setNumberRange(0, 25);
+        // let rainbowResult = rainbow.colorAt(number);
+        // console.log(rainbow, rainbowResult, "rainbow");
+        // return rainbowResult;
+        return "string";
+    }
+
+    getGradientColor = (percent):string => {
+        let start_color = "#ffffff";
+        let end_color = "#ff0000"
+        // strip the leading # if it's there
+        start_color = start_color.replace(/^\s*#|\s*$/g, '');
+        end_color = end_color.replace(/^\s*#|\s*$/g, '');
+     
+        // convert 3 char codes --> 6, e.g. `E0F` --> `EE00FF`
+        if(start_color.length == 3){
+          start_color = start_color.replace(/(.)/g, '$1$1');
+        }
+     
+        if(end_color.length == 3){
+          end_color = end_color.replace(/(.)/g, '$1$1');
+        }
+     
+        // get colors
+        var start_red = parseInt(start_color.substr(0, 2), 16),
+            start_green = parseInt(start_color.substr(2, 2), 16),
+            start_blue = parseInt(start_color.substr(4, 2), 16);
+     
+        var end_red = parseInt(end_color.substr(0, 2), 16),
+            end_green = parseInt(end_color.substr(2, 2), 16),
+            end_blue = parseInt(end_color.substr(4, 2), 16);
+     
+        // calculate new color
+        var diff_red: string | number = end_red - start_red;
+        var diff_green: string | number  = end_green - start_green;
+        var diff_blue: string | number  = end_blue - start_blue;
+     
+        diff_red = ( (diff_red * percent) + start_red ).toString(16).split('.')[0];
+        diff_green = ( (diff_green * percent) + start_green ).toString(16).split('.')[0];
+        diff_blue = ( (diff_blue * percent) + start_blue ).toString(16).split('.')[0];
+     
+        // ensure 2 digits by color
+        if( diff_red.length == 1 ) diff_red = '0' + diff_red
+        if( diff_green.length == 1 ) diff_green = '0' + diff_green
+        if( diff_blue.length == 1 ) diff_blue = '0' + diff_blue
+     
+        return '#' + diff_red + diff_green + diff_blue;
+      };
+
+    getUniqueValues = (): object[] => {
+        if (this.props.municipalityData) {
+            let uniqueValues = [];
+            Object.keys(this.props.municipalityData).forEach(municipality => {
+                uniqueValues.push({
+                    // All features with value of "North" will be blue
+                    value: municipality,
+                    symbol: {
+                        type: "simple-fill",  // autocasts as new SimpleFillSymbol()
+                        color: this.getGradientColor(this.props.municipalityData[municipality].percent / 18),
+                    }
+                });
+            });
+            console.log(uniqueValues.length)
+            return uniqueValues;
+        }
+    }
+
+    ready = ():void => {
         this.setState({
             loaded: true
         });
     }
-    createMap = () => {
+    createMap = ():void => {
         dojoRequire([
             'esri/Map', 
             'esri/views/MapView',
@@ -40,8 +116,24 @@ class EsriMap extends React.Component<Props, State> {
             const searchWidget = new Search({
                 view: this.mapView
             });
+
+            // {"renderer":{"type":"uniqueValue","field1":"Nombre","defaultSymbol":null,
+            // "uniqueValueInfos":[
+            // {"value":"Adjuntas","symbol":{"color":[255,251,0,255],
+                // "outline":{"color":[26,26,26,255],"width":0.75,"type":"esriSLS",
+                // "style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},
+                // "label":"Adjuntas"}
+
+        var renderer = {
+            type: "unique-value",  // autocasts as new UniqueValueRenderer()
+            field: "Nombre",
+            defaultSymbol: { type: "simple-fill", color: "white" },  // autocasts as new SimpleFillSymbol()
+            uniqueValueInfos: this.getUniqueValues(),
+        };                                    
+
             const municipalitiesLayer = new FeatureLayer({
-                url: 'https://services5.arcgis.com/tSRPsq29e3DI9PlH/arcgis/rest/services/limites_puerto_rico/FeatureServer',
+                url: 'https://services5.arcgis.com/tSRPsq29e3DI9PlH/arcgis/rest/services/limites_puerto_rico/FeatureServer/4',
+                renderer: renderer,
             })
 
             const map = new Map({
