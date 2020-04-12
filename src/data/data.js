@@ -24,7 +24,7 @@ const data = [
     
   },
   {
-    "municipality": "Afasco",
+    "municipality": "Añasco",
     "number": 4,
     "percent": 1,
     
@@ -42,7 +42,7 @@ const data = [
     
   },
   {
-    "municipality": "Bayamon",
+    "municipality": "Bayamón",
     "number": 29,
     "percent": 7.3,
     
@@ -66,7 +66,7 @@ const data = [
     
   },
   {
-    "municipality": "Canovanas",
+    "municipality": "Canóvanas",
     "number": 3,
     "percent": 0.8,
     
@@ -78,7 +78,7 @@ const data = [
     
   },
   {
-    "municipality": "Catafo",
+    "municipality": "Cataño",
     "number": 4,
     "percent": 1,
     
@@ -114,7 +114,7 @@ const data = [
     
   },
   {
-    "municipality": "Guanica",
+    "municipality": "Guánica",
     "number": 4,
     "percent": 1,
     
@@ -162,7 +162,7 @@ const data = [
     
   },
   {
-    "municipality": "Juana Diaz",
+    "municipality": "Juana Díaz",
     "number": 13,
     "percent": 3.3,
     
@@ -192,7 +192,7 @@ const data = [
     
   },
   {
-    "municipality": "Loiza",
+    "municipality": "Loíza",
     "number": 2,
     "percent": 0.5,
     
@@ -204,7 +204,7 @@ const data = [
     
   },
   {
-    "municipality": "Manati",
+    "municipality": "Manatí",
     "number": 2,
     "percent": 0.5,
     
@@ -216,7 +216,7 @@ const data = [
     
   },
   {
-    "municipality": "Mayaguez",
+    "municipality": "Mayagüez",
     "number": 15,
     "percent": 3.8,
     
@@ -264,19 +264,19 @@ const data = [
     
   },
   {
-    "municipality": "Rincon",
+    "municipality": "Rincón",
     "number": 1,
     "percent": 0.3,
     
   },
   {
-    "municipality": "Rio Grande",
+    "municipality": "Río Grande",
     "number": 2,
     "percent": 0.5,
     
   },
   {
-    "municipality": "Sabana Grande",
+    "municipality": "Sábana Grande",
     "number": 3,
     "percent": 0.8,
     
@@ -288,7 +288,7 @@ const data = [
     
   },
   {
-    "municipality": "San German",
+    "municipality": "San Germán",
     "number": 4,
     "percent": 1,
     
@@ -306,7 +306,7 @@ const data = [
     
   },
   {
-    "municipality": "San Sebastian",
+    "municipality": "San Sebastián",
     "number": 7,
     "percent": 1.8,
     

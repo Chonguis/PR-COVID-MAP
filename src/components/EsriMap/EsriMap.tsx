@@ -40,8 +40,8 @@ class EsriMap extends React.Component<Props, State> {
         return "string";
     }
 
-    getGradientColor = (percent):string => {
-        let start_color = "#ffffff";
+    getGradientColor = (percent: number):string => {
+        let start_color = "#ffc0cb";
         let end_color = "#ff0000"
         // strip the leading # if it's there
         start_color = start_color.replace(/^\s*#|\s*$/g, '');
@@ -80,7 +80,25 @@ class EsriMap extends React.Component<Props, State> {
         if( diff_blue.length == 1 ) diff_blue = '0' + diff_blue
      
         return '#' + diff_red + diff_green + diff_blue;
-      };
+    };
+
+    getGradient = (cases: number):string => {
+        if (cases > 25){
+            return "#FE0000";
+        } else if (cases > 20){
+            return "#FE3F02";
+        } else if (cases > 15){
+            return "#F97C00";
+        } else if (cases > 10){
+            return "#FB9E00";
+        } else if (cases > 5){
+            return "#FBD400";
+        } else if (cases >= 1){
+            return "#FDFD04";
+        } else {
+            return "#FFFFFF";
+        }
+    }
 
     getUniqueValues = (): object[] => {
         if (this.props.municipalityData) {
@@ -91,7 +109,7 @@ class EsriMap extends React.Component<Props, State> {
                     value: municipality,
                     symbol: {
                         type: "simple-fill",  // autocasts as new SimpleFillSymbol()
-                        color: this.getGradientColor(this.props.municipalityData[municipality].percent / 18),
+                        color: this.getGradient(this.props.municipalityData[municipality].number),
                     }
                 });
             });

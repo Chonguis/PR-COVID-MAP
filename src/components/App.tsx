@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './App.css';
 import EsriMap from './EsriMap/EsriMap';
-import data from './abril9';
+import data from '../data/data';
 
 class App extends React.Component {
   render() {
